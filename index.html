@@ -543,9 +543,21 @@ const CONFIG = {
   marca: "JUEGA A LO GRANDE",
 
   // --- ACTUALIZA ESTOS NÚMEROS CADA DÍA ---
-  equiposInscritos: 2,   // ← cambia este número a mano cada día
-  resenas: 2,            // ← total de reseñas recibidas
-  mercanciaVendida: 0,   // ← unidades de mercancía vendidas
+  equiposInscritos: 2,
+  resenas: 2,
+  mercanciaVendida: 0,
+
+  // --- EQUIPOS REGISTRADOS (agrega uno por objeto cuando llegue uno nuevo) ---
+  staticTeams: [
+    { name:"7mo Colegio Guias",  cat:"Colegio",        players:"5", captain:"Juan Angel Barreto", t:1781977389956 },
+    { name:"El Mdrid Cali",      cat:"Abierta (Cali)", players:"5", captain:"Javier Castro",      t:1781977221838 }
+  ],
+
+  // --- RESEÑAS (agrega una por objeto cuando llegue una nueva) ---
+  staticReviews: [
+    { name:"Maita",  text:"El guias va a ganar", rating:3, t:1781980534590 },
+    { name:"Benson", text:"Ganaremos",           rating:4, t:1781977138172 }
+  ],
 
   // --- Contacto / pagos (USA LOS DATOS DE UN ADULTO) ---
   whatsapp: "573001234567",          // número con 57 al inicio, sin + ni espacios
@@ -654,20 +666,18 @@ function toast(msg){
    ============================================================ */
 function loadTeams(){
   const list = $("teamList");
-  const teams = [];
+  const seen = new Set(CONFIG.staticTeams.map(t => t.t));
+  const teams = [...CONFIG.staticTeams];
   for(let i = 0; i < localStorage.length; i++){
     const k = localStorage.key(i);
     if(k && k.startsWith("team:")){
-      try{ teams.push(JSON.parse(localStorage.getItem(k))); }catch(e){}
+      try{
+        const t = JSON.parse(localStorage.getItem(k));
+        if(!seen.has(t.t)){ teams.push(t); seen.add(t.t); }
+      }catch(e){}
     }
   }
-  if(!teams.length){
-    list.innerHTML = `<div class="empty">Aún no hay equipos. ¡Sé el primero en inscribirte! ⚽</div>`;
-    $("teamCount").textContent = "0";
-    return;
-  }
   teams.sort((a,b)=> b.t - a.t);
-  $("teamCount").textContent = teams.length;
   list.innerHTML = teams.map(t => `
     <div class="team">
       <div class="av">${esc((t.name||"?").slice(0,2).toUpperCase())}</div>
@@ -719,16 +729,16 @@ function initStars(){
 
 function loadReviews(){
   const wall = $("revWall");
-  const revs = [];
+  const seen = new Set(CONFIG.staticReviews.map(r => r.t));
+  const revs = [...CONFIG.staticReviews];
   for(let i = 0; i < localStorage.length; i++){
     const k = localStorage.key(i);
     if(k && k.startsWith("review:")){
-      try{ revs.push(JSON.parse(localStorage.getItem(k))); }catch(e){}
+      try{
+        const r = JSON.parse(localStorage.getItem(k));
+        if(!seen.has(r.t)){ revs.push(r); seen.add(r.t); }
+      }catch(e){}
     }
-  }
-  if(!revs.length){
-    wall.innerHTML = `<div class="empty">Todavía no hay reseñas. ¡Deja la primera! ⭐</div>`;
-    return;
   }
   revs.sort((a,b)=> b.t - a.t);
   wall.innerHTML = revs.map(r => `
