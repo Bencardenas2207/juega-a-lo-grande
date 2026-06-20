@@ -217,6 +217,61 @@
 
   @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 
+  /* ── MEJORAS MÓVIL ─────────────────────────────────────── */
+  @media(max-width:600px){
+    /* Espaciado general */
+    section{padding:40px 0}
+    .wrap{padding:0 16px}
+
+    /* Hero */
+    .hero{padding:44px 0 36px;background-position:center center}
+    .hero h1{font-size:clamp(34px,11vw,52px);margin-bottom:12px}
+    .hero p.lead{font-size:14.5px;margin-bottom:18px}
+    .hero-cta{gap:10px}
+    .btn{font-size:14px;padding:12px 18px}
+
+    /* Sección títulos */
+    .sec-head{margin-bottom:20px}
+    .sec-head h2{font-size:clamp(24px,7.5vw,34px)}
+    .sec-head p{font-size:14.5px}
+
+    /* Hook banner */
+    .hook{padding:18px 20px;gap:14px}
+    .hook h3{font-size:clamp(18px,5.5vw,26px)}
+    .hook .btn{width:100%;justify-content:center}
+
+    /* Video galería — altura controlada en móvil */
+    .gallery-video{margin-bottom:10px}
+    .gallery-video video{max-height:200px}
+
+    /* Galería fotos */
+    .gallery{gap:8px}
+
+    /* Tablero de inscritos */
+    .scoreboard{font-size:clamp(38px,10vw,56px)}
+    .board-head{flex-direction:column;gap:4px}
+
+    /* Formulario */
+    .field-row{grid-template-columns:1fr}
+    .form-card{padding:18px}
+
+    /* Tienda */
+    .prod .price{font-size:18px}
+
+    /* Reseñas */
+    .rev-wall{max-height:320px}
+
+    /* Modal reglamento */
+    .reg-modal{padding:22px 18px}
+    .reg-modal h3{font-size:20px}
+    .reg-modal p{font-size:14px}
+
+    /* Nav mobile — links en columna */
+    #navLinks{flex-direction:column;position:absolute;top:62px;left:0;right:0;
+      background:rgba(10,19,22,.97);padding:16px 20px;gap:14px;z-index:60;
+      border-bottom:1px solid var(--line)}
+  }
+
   /* ---------- HERO FONDO FOTO ---------- */
   .hero{
     background-image: url('assets/campeon1.jpg');
@@ -317,7 +372,7 @@
       <div class="card prize"><div class="ico">🥈</div><div class="rank">Subcampeón</div><p id="prize2">Ronda de Gatorade para todos los participantes del equipo.</p></div>
     </div>
 
-    <h3 style="margin:38px 0 16px;font-size:22px">Galería</h3>
+    <h3 style="margin:38px 0 10px;font-size:22px">Galería</h3>
     <div class="gallery-video">
       <video autoplay muted loop playsinline>
         <source src="assets/video_ambiente.mp4" type="video/mp4">
