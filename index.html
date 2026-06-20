@@ -745,8 +745,13 @@ document.getElementById('regModalBg').addEventListener('click', function(e){
 /* ---------- VIDEO DE FONDO ---------- */
 const heroBg = document.getElementById('heroBg');
 if(heroBg){
-  heroBg.playbackRate = 1;
-  heroBg.addEventListener('ended', () => heroBg.play());
-  document.addEventListener('click', () => { if(heroBg.paused) heroBg.play(); }, {once:true});
+  heroBg.muted = true;
+  heroBg.loop = true;
+  heroBg.playsInline = true;
+  const tryPlay = () => heroBg.play().catch(() => {});
+  tryPlay();
+  document.addEventListener('visibilitychange', () => { if(!document.hidden) tryPlay(); });
+  document.addEventListener('click', tryPlay, {once: true});
+  document.addEventListener('touchstart', tryPlay, {once: true});
 }
 </script>
