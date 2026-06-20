@@ -217,13 +217,9 @@
 
   @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 
-  /* ---------- VIDEO HERO ---------- */
-  .hero{position:relative}
-  #heroBg{
-    position:absolute;inset:0;width:100%;height:100%;
-    object-fit:cover;opacity:.35;z-index:0;pointer-events:none;
-  }
-  .hero .floodlight,.hero .wrap{position:relative;z-index:1}
+  /* ---------- VIDEO GALERÍA ---------- */
+  .gallery-video{border-radius:14px;overflow:hidden;margin-bottom:16px;border:1px solid var(--line)}
+  .gallery-video video{width:100%;display:block;max-height:400px;object-fit:cover}
 
   /* ---------- MODAL REGLAMENTO ---------- */
   .reg-modal-bg{position:fixed;inset:0;background:rgba(5,9,11,.82);backdrop-filter:blur(6px);
@@ -260,9 +256,6 @@
 
 <!-- ===================== HERO ===================== -->
 <header class="hero">
-  <video id="heroBg" autoplay muted loop playsinline>
-    <source src="assets/video_ambiente.mp4" type="video/mp4">
-  </video>
   <div class="floodlight"></div>
   <div class="wrap hero-grid">
     <div>
@@ -313,6 +306,11 @@
     </div>
 
     <h3 style="margin:38px 0 16px;font-size:22px">Galería</h3>
+    <div class="gallery-video">
+      <video autoplay muted loop playsinline>
+        <source src="assets/video_ambiente.mp4" type="video/mp4">
+      </video>
+    </div>
     <div class="gallery" id="gallery"></div>
   </div>
 </section>
@@ -575,39 +573,36 @@ function toast(msg){
 }
 
 /* ============================================================
-   INSCRIPCIÓN DE EQUIPOS  (almacenamiento compartido)
+   INSCRIPCIÓN DE EQUIPOS  (localStorage)
    ============================================================ */
-async function loadTeams(){
+function loadTeams(){
   const list = $("teamList");
-  try{
-    const res = await window.storage.list("team:", true);
-    const keys = (res && res.keys) ? res.keys : [];
-    if(!keys.length){
-      list.innerHTML = `<div class="empty">Aún no hay equipos. ¡Sé el primero en inscribirte! ⚽</div>`;
-      $("teamCount").textContent = "0";
-      return;
+  const teams = [];
+  for(let i = 0; i < localStorage.length; i++){
+    const k = localStorage.key(i);
+    if(k && k.startsWith("team:")){
+      try{ teams.push(JSON.parse(localStorage.getItem(k))); }catch(e){}
     }
-    const teams = [];
-    for(const k of keys){
-      try{ const r = await window.storage.get(k, true); if(r&&r.value) teams.push(JSON.parse(r.value)); }catch(e){}
-    }
-    teams.sort((a,b)=> b.t - a.t);
-    $("teamCount").textContent = teams.length;
-    list.innerHTML = teams.map(t => `
-      <div class="team">
-        <div class="av">${esc((t.name||"?").slice(0,2).toUpperCase())}</div>
-        <div class="meta">
-          <div class="tname">${esc(t.name)}</div>
-          <div class="tsub">Cap. ${esc(t.captain||"—")} · ${esc(t.players||5)} jugadores</div>
-        </div>
-        <span class="badge">${esc(t.cat||"")}</span>
-      </div>`).join("");
-  }catch(e){
-    list.innerHTML = `<div class="empty">No se pudo cargar el tablero. Revisa tu conexión e inténtalo de nuevo.</div>`;
   }
+  if(!teams.length){
+    list.innerHTML = `<div class="empty">Aún no hay equipos. ¡Sé el primero en inscribirte! ⚽</div>`;
+    $("teamCount").textContent = "0";
+    return;
+  }
+  teams.sort((a,b)=> b.t - a.t);
+  $("teamCount").textContent = teams.length;
+  list.innerHTML = teams.map(t => `
+    <div class="team">
+      <div class="av">${esc((t.name||"?").slice(0,2).toUpperCase())}</div>
+      <div class="meta">
+        <div class="tname">${esc(t.name)}</div>
+        <div class="tsub">Cap. ${esc(t.captain||"—")} · ${esc(t.players||5)} jugadores</div>
+      </div>
+      <span class="badge">${esc(t.cat||"")}</span>
+    </div>`).join("");
 }
 
-async function registerTeam(){
+function registerTeam(){
   const name = $("tName").value.trim();
   const cat = $("tCat").value;
   const players = $("tPlayers").value;
@@ -618,18 +613,11 @@ async function registerTeam(){
   if(captain.length < 2){ toast("Falta el nombre del capitán"); $("tCaptain").focus(); return; }
   if(phone.replace(/\D/g,"").length < 7){ toast("Pon un WhatsApp válido"); $("tPhone").focus(); return; }
 
-  // Guardado público: SOLO datos no sensibles (sin teléfono)
   const team = { name, cat, players, captain, t: Date.now() };
   const key = "team:" + team.t + ":" + Math.random().toString(36).slice(2,7);
-  try{
-    await window.storage.set(key, JSON.stringify(team), true);
-  }catch(e){
-    toast("No se pudo guardar. Inténtalo de nuevo.");
-    return;
-  }
+  localStorage.setItem(key, JSON.stringify(team));
 
-  // El teléfono va SOLO por WhatsApp a la organización (no se guarda público)
-  const msg = `¡Hola! Quiero inscribir mi equipo a la Copa Thiago.%0A%0AEquipo: ${encodeURIComponent(name)}%0ACategoría: ${encodeURIComponent(cat)}%0AJugadores: ${encodeURIComponent(players)}%0ACapitán: ${encodeURIComponent(captain)}%0AMi WhatsApp: ${encodeURIComponent(phone)}`;
+  const msg = `¡Hola! Quiero inscribir mi equipo.%0A%0AEquipo: ${encodeURIComponent(name)}%0ACategoría: ${encodeURIComponent(cat)}%0AJugadores: ${encodeURIComponent(players)}%0ACapitán: ${encodeURIComponent(captain)}%0AMi WhatsApp: ${encodeURIComponent(phone)}`;
   window.open(`https://wa.me/${CONFIG.whatsapp}?text=${msg}`, "_blank");
 
   $("tName").value = ""; $("tCaptain").value = ""; $("tPhone").value = "";
@@ -638,7 +626,7 @@ async function registerTeam(){
 }
 
 /* ============================================================
-   RESEÑAS  (almacenamiento compartido)
+   RESEÑAS  (localStorage)
    ============================================================ */
 let starVal = 5;
 function initStars(){
@@ -652,35 +640,32 @@ function initStars(){
   paint(starVal);
 }
 
-async function loadReviews(){
+function loadReviews(){
   const wall = $("revWall");
-  try{
-    const res = await window.storage.list("review:", true);
-    const keys = (res && res.keys) ? res.keys : [];
-    if(!keys.length){
-      wall.innerHTML = `<div class="empty">Todavía no hay reseñas. ¡Deja la primera! ⭐</div>`;
-      return;
+  const revs = [];
+  for(let i = 0; i < localStorage.length; i++){
+    const k = localStorage.key(i);
+    if(k && k.startsWith("review:")){
+      try{ revs.push(JSON.parse(localStorage.getItem(k))); }catch(e){}
     }
-    const revs = [];
-    for(const k of keys){
-      try{ const r = await window.storage.get(k, true); if(r&&r.value) revs.push(JSON.parse(r.value)); }catch(e){}
-    }
-    revs.sort((a,b)=> b.t - a.t);
-    wall.innerHTML = revs.map(r => `
-      <div class="rev">
-        <div class="top">
-          <span class="who">${esc(r.name)}</span>
-          <span class="when">${new Date(r.t).toLocaleDateString("es-CO",{day:"numeric",month:"short"})}</span>
-        </div>
-        <div class="rstars">${"★".repeat(r.rating)}${"☆".repeat(5-r.rating)}</div>
-        <div class="rtext">${esc(r.text)}</div>
-      </div>`).join("");
-  }catch(e){
-    wall.innerHTML = `<div class="empty">No se pudieron cargar las reseñas. Inténtalo de nuevo.</div>`;
   }
+  if(!revs.length){
+    wall.innerHTML = `<div class="empty">Todavía no hay reseñas. ¡Deja la primera! ⭐</div>`;
+    return;
+  }
+  revs.sort((a,b)=> b.t - a.t);
+  wall.innerHTML = revs.map(r => `
+    <div class="rev">
+      <div class="top">
+        <span class="who">${esc(r.name)}</span>
+        <span class="when">${new Date(r.t).toLocaleDateString("es-CO",{day:"numeric",month:"short"})}</span>
+      </div>
+      <div class="rstars">${"★".repeat(r.rating)}${"☆".repeat(5-r.rating)}</div>
+      <div class="rtext">${esc(r.text)}</div>
+    </div>`).join("");
 }
 
-async function postReview(){
+function postReview(){
   const name = $("rName").value.trim();
   const text = $("rText").value.trim();
   if(name.length < 2){ toast("¿Cómo te llamas?"); $("rName").focus(); return; }
@@ -688,12 +673,7 @@ async function postReview(){
 
   const rev = { name, text, rating: starVal, t: Date.now() };
   const key = "review:" + rev.t + ":" + Math.random().toString(36).slice(2,7);
-  try{
-    await window.storage.set(key, JSON.stringify(rev), true);
-  }catch(e){
-    toast("No se pudo publicar. Inténtalo de nuevo.");
-    return;
-  }
+  localStorage.setItem(key, JSON.stringify(rev));
   $("rName").value = ""; $("rText").value = ""; starVal = 5; initStars();
   toast("¡Gracias por tu reseña! ⭐");
   loadReviews();
@@ -741,17 +721,4 @@ loadReviews();
 document.getElementById('regModalBg').addEventListener('click', function(e){
   if(e.target.id === 'regModalBg') this.classList.remove('open');
 });
-
-/* ---------- VIDEO DE FONDO ---------- */
-const heroBg = document.getElementById('heroBg');
-if(heroBg){
-  heroBg.muted = true;
-  heroBg.loop = true;
-  heroBg.playsInline = true;
-  const tryPlay = () => heroBg.play().catch(() => {});
-  tryPlay();
-  document.addEventListener('visibilitychange', () => { if(!document.hidden) tryPlay(); });
-  document.addEventListener('click', tryPlay, {once: true});
-  document.addEventListener('touchstart', tryPlay, {once: true});
-}
 </script>
