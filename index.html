@@ -240,9 +240,11 @@
     .hook h3{font-size:clamp(18px,5.5vw,26px)}
     .hook .btn{width:100%;justify-content:center}
 
-    /* Video galería — altura controlada en móvil */
-    .gallery-video{margin-bottom:10px}
-    .gallery-video video{max-height:200px}
+/* Iconos tarjetas — más pequeños en móvil */
+    .ico{width:32px;height:32px;font-size:17px;margin-bottom:10px;border-radius:8px}
+
+    /* Imágenes tienda — altura controlada */
+    .prod .pimg{aspect-ratio:3/2}
 
     /* Galería fotos */
     .gallery{gap:8px}
@@ -285,9 +287,6 @@
   }
   .hero .floodlight,.hero .wrap{position:relative;z-index:1}
 
-  /* ---------- VIDEO GALERÍA ---------- */
-  .gallery-video{border-radius:14px;overflow:hidden;margin-bottom:16px;border:1px solid var(--line)}
-  .gallery-video video{width:100%;display:block;max-height:400px;object-fit:cover}
 
   /* ---------- MODAL REGLAMENTO ---------- */
   .reg-modal-bg{position:fixed;inset:0;background:rgba(5,9,11,.82);backdrop-filter:blur(6px);
@@ -372,12 +371,7 @@
       <div class="card prize"><div class="ico">🥈</div><div class="rank">Subcampeón</div><p id="prize2">Ronda de Gatorade para todos los participantes del equipo.</p></div>
     </div>
 
-    <h3 style="margin:38px 0 10px;font-size:22px">Galería</h3>
-    <div class="gallery-video">
-      <video autoplay muted loop playsinline>
-        <source src="assets/video_ambiente.mp4" type="video/mp4">
-      </video>
-    </div>
+    <h3 style="margin:38px 0 14px;font-size:22px">Galería</h3>
     <div class="gallery" id="gallery"></div>
   </div>
 </section>
