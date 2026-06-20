@@ -423,6 +423,16 @@
             <div class="scoreboard"><span id="teamCount">0</span><small>en la cancha</small></div>
           </div>
         </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0">
+          <div style="background:var(--pitch);border:1px solid var(--line);border-radius:11px;padding:14px;text-align:center">
+            <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ash);font-weight:800;margin-bottom:6px">Reseñas</div>
+            <div style="font-family:'Anton';font-size:36px;color:var(--turquesa);line-height:1" id="resenaCount">0</div>
+          </div>
+          <div style="background:var(--pitch);border:1px solid var(--line);border-radius:11px;padding:14px;text-align:center">
+            <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ash);font-weight:800;margin-bottom:6px">Ventas</div>
+            <div style="font-family:'Anton';font-size:36px;color:var(--oro);line-height:1" id="ventaCount">0</div>
+          </div>
+        </div>
         <div class="team-list" id="teamList">
           <div class="empty">Cargando inscritos…</div>
         </div>
@@ -532,6 +542,11 @@
 const CONFIG = {
   marca: "JUEGA A LO GRANDE",
 
+  // --- ACTUALIZA ESTOS NÚMEROS CADA DÍA ---
+  equiposInscritos: 0,   // ← cambia este número a mano cada día
+  resenas: 0,            // ← total de reseñas recibidas
+  mercanciaVendida: 0,   // ← unidades de mercancía vendidas
+
   // --- Contacto / pagos (USA LOS DATOS DE UN ADULTO) ---
   whatsapp: "573001234567",          // número con 57 al inicio, sin + ni espacios
   nequiNumero: "300 000 0000",       // número de Nequi (de papá o mamá)
@@ -597,6 +612,9 @@ function applyConfig(){
   $("cCostoTxt").textContent = CONFIG.costo;
   $("prize1").textContent = CONFIG.premio1;
   $("prize2").textContent = CONFIG.premio2;
+  $("teamCount").textContent  = CONFIG.equiposInscritos;
+  $("resenaCount").textContent = CONFIG.resenas;
+  $("ventaCount").textContent  = CONFIG.mercanciaVendida;
   $("mNequi").textContent = CONFIG.nequiNumero;
   $("mNequiName").textContent = CONFIG.nequiNombre;
 
