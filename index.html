@@ -1,0 +1,752 @@
+<!-- ============================================================
+     JUEGA A LO GRANDE, RETA A LOS MEJORES — Torneo Fútbol 5 + Tienda
+     ============================================================ -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --pitch:#0A1316;
+    --pitch-2:#0F1E22;
+    --panel:#13262B;
+    --line:#1E3A40;
+    --mango:#FF7A18;
+    --mango-soft:#FF9A47;
+    --turquesa:#19E0C8;
+    --oro:#FFD23F;
+    --chalk:#F4F6F3;
+    --ash:#8FA6A2;
+    --danger:#FF5C5C;
+    --radius:14px;
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--pitch);
+    color:var(--chalk);
+    font-family:'Manrope',system-ui,sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.5px;line-height:.95;text-transform:uppercase}
+  .mono{font-family:'Space Mono',monospace}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+  ::selection{background:var(--mango);color:var(--pitch)}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(10,19,22,.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:62px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:'Anton';font-size:20px;letter-spacing:1px}
+  .brand .ball{width:26px;height:26px;border-radius:50%;background:
+     radial-gradient(circle at 35% 30%, #fff 0 30%, transparent 31%),
+     var(--mango);box-shadow:0 0 18px rgba(255,122,24,.6)}
+  .nav-links{display:flex;gap:22px;align-items:center}
+  .nav-links a{font-size:13px;font-weight:700;text-decoration:none;color:var(--ash);letter-spacing:.5px;text-transform:uppercase}
+  .nav-links a:hover{color:var(--chalk)}
+  .nav-cta{background:var(--mango);color:var(--pitch)!important;padding:9px 16px;border-radius:999px;font-weight:800}
+  .nav-cta:hover{background:var(--mango-soft)}
+  .menu-btn{display:none;background:none;border:1px solid var(--line);color:var(--chalk);border-radius:8px;padding:7px 10px;font-size:18px;cursor:pointer}
+  @media(max-width:760px){
+    .nav-links{display:none}
+    .menu-btn{display:block}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;padding:78px 0 64px;overflow:hidden}
+  .hero::before{
+    content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);
+    width:900px;height:520px;
+    background:radial-gradient(ellipse at center, rgba(255,122,24,.28), transparent 62%);
+    filter:blur(8px);pointer-events:none;
+  }
+  .floodlight{position:absolute;inset:0;background:
+     linear-gradient(180deg, rgba(25,224,200,.06), transparent 40%);
+     pointer-events:none}
+  .hero-grid{position:relative;display:grid;grid-template-columns:1.3fr .7fr;gap:30px;align-items:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--turquesa);margin-bottom:18px}
+  .eyebrow::before{content:"";width:26px;height:2px;background:var(--turquesa)}
+  .hero h1{font-size:clamp(42px,8vw,86px);margin-bottom:18px}
+  .hero h1 .hl{color:var(--mango)}
+  .hero p.lead{font-size:17px;color:var(--ash);max-width:480px;margin-bottom:26px}
+  .hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+  .btn{cursor:pointer;border:none;font-family:'Manrope';font-weight:800;font-size:15px;padding:14px 22px;border-radius:999px;text-decoration:none;display:inline-flex;align-items:center;gap:9px;transition:.15s transform,.15s background}
+  .btn:active{transform:translateY(1px)}
+  .btn-primary{background:var(--mango);color:var(--pitch)}
+  .btn-primary:hover{background:var(--mango-soft)}
+  .btn-ghost{background:transparent;color:var(--chalk);border:1.5px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--turquesa);color:var(--turquesa)}
+  .jersey{
+    aspect-ratio:1;border-radius:24px;border:1px solid var(--line);
+    background:linear-gradient(150deg,var(--panel),var(--pitch-2));
+    display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden}
+  .jersey .num{font-family:'Anton';font-size:clamp(120px,22vw,210px);color:var(--mango);line-height:.8;text-shadow:0 0 40px rgba(255,122,24,.5)}
+  .jersey .cap{font-size:13px;letter-spacing:3px;color:var(--ash);text-transform:uppercase;font-weight:800;margin-top:6px}
+  @media(max-width:760px){.hero-grid{grid-template-columns:1fr}.jersey{display:none}}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .sec-head{margin-bottom:34px}
+  .sec-head .eyebrow{margin-bottom:12px}
+  .sec-head h2{font-size:clamp(30px,5vw,48px)}
+  .sec-head p{color:var(--ash);max-width:560px;margin-top:12px;font-size:16px}
+
+  /* ---------- TORNEO ---------- */
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  @media(max-width:760px){.grid-3,.grid-2{grid-template-columns:1fr}}
+  .card{background:var(--pitch-2);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+  .card h3{font-size:20px;margin-bottom:8px;letter-spacing:.6px}
+  .card p{color:var(--ash);font-size:14.5px}
+  .ico{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px;background:rgba(255,122,24,.12)}
+
+  .hook{
+    margin-top:18px;background:linear-gradient(135deg,rgba(255,122,24,.16),rgba(25,224,200,.08));
+    border:1px solid var(--mango);border-radius:18px;padding:30px;display:flex;gap:24px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+  .hook h3{font-size:clamp(24px,4vw,34px);max-width:560px}
+  .hook .tag{font-size:12px;font-weight:800;letter-spacing:2px;color:var(--mango);text-transform:uppercase}
+
+  /* prizes */
+  .prize{position:relative;overflow:hidden}
+  .prize .rank{font-family:'Anton';font-size:14px;letter-spacing:1px;color:var(--oro);margin-bottom:6px}
+  .prize.first{border-color:var(--oro)}
+  .prize.first .ico{background:rgba(255,210,63,.15)}
+
+  /* gallery */
+  .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media(max-width:760px){.gallery{grid-template-columns:repeat(2,1fr)}}
+  .ph{
+    aspect-ratio:1;border-radius:12px;border:1.5px dashed var(--line);
+    background:var(--pitch-2);display:flex;flex-direction:column;align-items:center;justify-content:center;
+    color:var(--ash);font-size:12px;text-align:center;gap:6px;padding:10px}
+  .ph .big{font-size:26px}
+  .ph.has-img{border-style:solid;padding:0;overflow:hidden}
+  .ph img{width:100%;height:100%;object-fit:cover}
+
+  /* ---------- INSCRIPCION ---------- */
+  .insc-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+  @media(max-width:860px){.insc-grid{grid-template-columns:1fr}}
+  .form-card{background:var(--pitch-2);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+  label{display:block;font-size:12.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--ash);margin:14px 0 6px}
+  input,textarea,select{
+    width:100%;background:var(--pitch);border:1px solid var(--line);color:var(--chalk);
+    border-radius:10px;padding:12px 13px;font-family:'Manrope';font-size:15px;outline:none;transition:.15s border}
+  input:focus,textarea:focus,select:focus{border-color:var(--mango)}
+  textarea{resize:vertical;min-height:80px}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .form-card .btn{width:100%;justify-content:center;margin-top:20px}
+  .hint{font-size:12.5px;color:var(--ash);margin-top:12px;line-height:1.5}
+
+  .board-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+  .scoreboard{
+    font-family:'Anton';font-size:clamp(48px,9vw,72px);color:var(--turquesa);
+    line-height:.9;text-shadow:0 0 26px rgba(25,224,200,.4)}
+  .scoreboard small{display:block;font-family:'Manrope';font-size:12px;letter-spacing:2px;color:var(--ash);text-transform:uppercase}
+  .team-list{display:flex;flex-direction:column;gap:10px;max-height:430px;overflow:auto;padding-right:4px}
+  .team{display:flex;align-items:center;gap:13px;background:var(--pitch);border:1px solid var(--line);border-radius:11px;padding:12px 14px}
+  .team .av{width:38px;height:38px;border-radius:9px;background:rgba(255,122,24,.14);display:flex;align-items:center;justify-content:center;font-family:'Anton';color:var(--mango);font-size:17px;flex:0 0 auto}
+  .team .meta{min-width:0}
+  .team .tname{font-weight:800;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .team .tsub{font-size:12.5px;color:var(--ash)}
+  .team .badge{margin-left:auto;font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:var(--panel);color:var(--turquesa);flex:0 0 auto}
+  .empty{color:var(--ash);font-size:14px;text-align:center;padding:30px 10px;border:1.5px dashed var(--line);border-radius:11px}
+
+  /* ---------- TIENDA ---------- */
+  .shop{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:860px){.shop{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:520px){.shop{grid-template-columns:1fr}}
+  .prod{background:var(--pitch-2);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
+  .prod .pimg{aspect-ratio:4/3;background:var(--pitch);position:relative;overflow:hidden}
+  .prod .pimg img{width:100%;height:100%;object-fit:cover}
+  .prod .pimg .ph{border:none;border-radius:0;height:100%;aspect-ratio:auto}
+  .prod .ptag{position:absolute;top:10px;left:10px;font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:5px 10px;border-radius:999px}
+  .ptag.used{background:var(--turquesa);color:var(--pitch)}
+  .ptag.new{background:var(--mango);color:var(--pitch)}
+  .prod .pbody{padding:16px;display:flex;flex-direction:column;flex:1}
+  .prod h3{font-size:17px;letter-spacing:.4px;margin-bottom:4px}
+  .prod .pdesc{font-size:13px;color:var(--ash);flex:1}
+  .prod .price{font-family:'Space Mono';font-weight:700;font-size:21px;color:var(--oro);margin:12px 0}
+  .prod .btn{justify-content:center;width:100%;font-size:14px;padding:11px}
+
+  /* ---------- RESEÑAS ---------- */
+  .rev-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:24px;align-items:start}
+  @media(max-width:860px){.rev-grid{grid-template-columns:1fr}}
+  .stars-pick{display:flex;gap:6px;margin-top:6px}
+  .stars-pick span{font-size:28px;cursor:pointer;color:var(--line);transition:.1s;line-height:1}
+  .stars-pick span.on{color:var(--oro)}
+  .rev-wall{display:flex;flex-direction:column;gap:12px;max-height:480px;overflow:auto;padding-right:4px}
+  .rev{background:var(--pitch-2);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .rev .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+  .rev .who{font-weight:800;font-size:14.5px}
+  .rev .when{font-size:11.5px;color:var(--ash)}
+  .rev .rstars{color:var(--oro);font-size:14px;letter-spacing:1px;margin-bottom:6px}
+  .rev .rtext{font-size:14px;color:var(--chalk)}
+
+  /* ---------- MODAL ---------- */
+  .modal-bg{position:fixed;inset:0;background:rgba(5,9,11,.75);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+  .modal-bg.open{display:flex}
+  .modal{background:var(--pitch-2);border:1px solid var(--line);border-radius:18px;max-width:430px;width:100%;padding:26px;position:relative}
+  .modal h3{font-size:22px;margin-bottom:4px}
+  .modal .close{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--ash);font-size:24px;cursor:pointer;line-height:1}
+  .modal .close:hover{color:var(--chalk)}
+  .nequi-box{background:var(--pitch);border:1px solid var(--mango);border-radius:12px;padding:16px;margin:16px 0;text-align:center}
+  .nequi-box .lbl{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ash)}
+  .nequi-box .num{font-family:'Space Mono';font-weight:700;font-size:26px;color:var(--mango);margin:4px 0}
+  .nequi-box .nm{font-size:13px;color:var(--ash)}
+
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(120px);background:var(--turquesa);color:var(--pitch);font-weight:800;padding:13px 22px;border-radius:999px;z-index:200;transition:.3s transform;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:46px 0;border-top:1px solid var(--line);color:var(--ash);font-size:13.5px}
+  footer .f-in{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+  footer .note{max-width:520px;line-height:1.6}
+  footer .safe{color:var(--turquesa);font-weight:700}
+
+  @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+  /* ---------- VIDEO HERO ---------- */
+  .hero{position:relative}
+  #heroBg{
+    position:absolute;inset:0;width:100%;height:100%;
+    object-fit:cover;opacity:.35;z-index:0;pointer-events:none;
+  }
+  .hero .floodlight,.hero .wrap{position:relative;z-index:1}
+
+  /* ---------- MODAL REGLAMENTO ---------- */
+  .reg-modal-bg{position:fixed;inset:0;background:rgba(5,9,11,.82);backdrop-filter:blur(6px);
+    display:none;align-items:center;justify-content:center;z-index:110;padding:20px}
+  .reg-modal-bg.open{display:flex}
+  .reg-modal{background:var(--pitch-2);border:1px solid var(--mango);border-radius:18px;
+    max-width:620px;width:100%;padding:32px;position:relative;max-height:90vh;overflow-y:auto}
+  .reg-modal h3{font-size:26px;margin-bottom:6px;color:var(--mango)}
+  .reg-modal .close{position:absolute;top:14px;right:18px;background:none;border:none;
+    color:var(--ash);font-size:26px;cursor:pointer;line-height:1}
+  .reg-modal .close:hover{color:var(--chalk)}
+  .reg-modal p{color:var(--ash);font-size:15px;line-height:1.75;margin-bottom:16px}
+  .reg-modal p:last-of-type{margin-bottom:0}
+  .btn-reglamento{background:transparent;color:var(--turquesa);border:1.5px solid var(--turquesa);
+    cursor:pointer;font-family:'Manrope';font-weight:800;font-size:14px;
+    padding:10px 20px;border-radius:999px;display:inline-flex;align-items:center;gap:7px;transition:.15s}
+  .btn-reglamento:hover{background:var(--turquesa);color:var(--pitch)}
+</style>
+
+<!-- ===================== NAV ===================== -->
+<nav>
+  <div class="wrap nav-in">
+    <div class="brand"><span class="ball"></span><span id="brandName">JUEGA A LO GRANDE</span></div>
+    <div class="nav-links" id="navLinks">
+      <a href="#torneo">Torneo</a>
+      <a href="#inscripcion">Inscríbete</a>
+      <a href="#tienda">Tienda</a>
+      <a href="#resenas">Reseñas</a>
+      <a href="#inscripcion" class="nav-cta">Inscribir equipo</a>
+    </div>
+    <button class="menu-btn" onclick="document.getElementById('navLinks').style.display='flex'">☰</button>
+  </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero">
+  <video id="heroBg" autoplay muted loop playsinline>
+    <source src="assets/video_ambiente.mp4" type="video/mp4">
+  </video>
+  <div class="floodlight"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Fútbol 5 · Cali · Vacaciones</span>
+      <h1>Juega a lo grande,<br><span class="hl">reta a los mejores</span></h1>
+      <p class="lead" id="heroLead">Inscribe tu equipo en el torneo de barrio más prendido de Cali. Recreativo, familiar y al estilo de los picaditos de toda la vida — pero en grande.</p>
+      <div class="hero-cta">
+        <a href="#inscripcion" class="btn btn-primary">Inscribir mi equipo ⚽</a>
+        <a href="#tienda" class="btn btn-ghost">Ver la tienda</a>
+      </div>
+    </div>
+    <div class="jersey">
+      <div class="num">5</div>
+      <div class="cap">Fútbol Cinco</div>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== TORNEO ===================== -->
+<section id="torneo">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">El torneo</span>
+      <h2>Picaditos de barrio, nivel torneo</h2>
+      <p id="torneoIntro">Equipos de 5, partidos cortos y mucha energía. Para el colegio, la unidad, el círculo del fútbol y cualquier parche de Cali que se le mida estas vacaciones.</p>
+      <button class="btn-reglamento" style="margin-top:18px" onclick="document.getElementById('regModalBg').classList.add('open')">📋 Ver reglamento del torneo</button>
+    </div>
+
+    <div class="grid-3">
+      <div class="card"><div class="ico">📅</div><h3 id="cFecha">Fechas</h3><p id="cFechaTxt">Durante las vacaciones. Fines de semana.</p></div>
+      <div class="card"><div class="ico">📍</div><h3 id="cLugar">Dónde</h3><p id="cLugarTxt">Cancha sintética en Cali. Cupo limitado de equipos.</p></div>
+      <div class="card"><div class="ico">🎟️</div><h3 id="cCosto">Inscripción</h3><p id="cCostoTxt">Costo bajo por equipo. Plan familiar y recreativo.</p></div>
+    </div>
+
+    <div class="hook">
+      <div>
+        <span class="tag">El reto estrella</span>
+        <h3>Juega contra el equipo campeón nacional de Thiago</h3>
+      </div>
+      <a href="#inscripcion" class="btn btn-primary">Quiero el reto</a>
+    </div>
+
+    <h3 style="margin:38px 0 16px;font-size:22px">Premios</h3>
+    <div class="grid-3">
+      <div class="card prize first"><div class="ico">🏆</div><div class="rank">Campeón</div><p id="prize1">Certificado de Campeón oficial + Inscripción gratuita al próximo evento + Reseña en redes sociales.</p></div>
+      <div class="card prize"><div class="ico">🥈</div><div class="rank">Subcampeón</div><p id="prize2">Ronda de Gatorade para todos los participantes del equipo.</p></div>
+      <div class="card prize"><div class="ico">🏅</div><div class="rank">Todos los participantes</div><p id="prize3">Gatorade para cada jugador del torneo.</p></div>
+    </div>
+
+    <h3 style="margin:38px 0 16px;font-size:22px">Galería</h3>
+    <div class="gallery" id="gallery"></div>
+  </div>
+</section>
+
+<!-- ===================== INSCRIPCION ===================== -->
+<section id="inscripcion">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Inscríbete</span>
+      <h2>Arma tu equipo y entra a la cancha</h2>
+      <p>Llena los datos y confirma por WhatsApp. Tu equipo aparece al instante en el tablero de inscritos. ¡Que no te ganen el cupo!</p>
+    </div>
+
+    <div class="insc-grid">
+      <div class="form-card">
+        <label for="tName">Nombre del equipo</label>
+        <input id="tName" maxlength="28" placeholder="Ej: Los Tigres del Barrio">
+
+        <div class="field-row">
+          <div>
+            <label for="tCat">Categoría</label>
+            <select id="tCat">
+              <option>Colegio</option>
+              <option>Unidad / Barrio</option>
+              <option>Círculo de fútbol</option>
+              <option>Abierta (Cali)</option>
+            </select>
+          </div>
+          <div>
+            <label for="tPlayers">N° de jugadores</label>
+            <input id="tPlayers" type="number" min="5" max="10" value="5">
+          </div>
+        </div>
+
+        <label for="tCaptain">Nombre del capitán</label>
+        <input id="tCaptain" maxlength="20" placeholder="Tu nombre">
+
+        <label for="tPhone">WhatsApp de contacto</label>
+        <input id="tPhone" type="tel" placeholder="Ej: 3001234567">
+
+        <button class="btn btn-primary" onclick="registerTeam()">Inscribir equipo y confirmar por WhatsApp</button>
+        <p class="hint">🔒 En el tablero público solo se muestra el <b>nombre del equipo</b>, la categoría y el nombre del capitán. Tu número llega únicamente al WhatsApp de la organización (los papás de Thiago) para coordinar.</p>
+      </div>
+
+      <div class="form-card">
+        <div class="board-head">
+          <div>
+            <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--ash);font-weight:800">Equipos inscritos</div>
+            <div class="scoreboard"><span id="teamCount">0</span><small>en la cancha</small></div>
+          </div>
+        </div>
+        <div class="team-list" id="teamList">
+          <div class="empty">Cargando inscritos…</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TIENDA ===================== -->
+<section id="tienda">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">La tienda</span>
+      <h2>Gorras, guayos y vestuario deportivo</h2>
+      <p>Cosas de Thiago que le quedaron pequeñas (en buen estado) y productos nuevos a pedido. Pagas fácil por Nequi y coordinas la entrega.</p>
+    </div>
+    <div class="shop" id="shop"></div>
+  </div>
+</section>
+
+<!-- ===================== RESEÑAS ===================== -->
+<section id="resenas">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Reseñas</span>
+      <h2>Lo que dice el parche</h2>
+      <p>¿Jugaste el torneo o compraste algo? Cuéntale a los demás cómo te fue. Las reseñas son públicas para todos los que visiten la página.</p>
+    </div>
+
+    <div class="rev-grid">
+      <div class="form-card">
+        <label for="rName">Tu nombre</label>
+        <input id="rName" maxlength="20" placeholder="Ej: Juan D.">
+        <label>Tu calificación</label>
+        <div class="stars-pick" id="starPick">
+          <span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span>
+        </div>
+        <label for="rText">Tu comentario</label>
+        <textarea id="rText" maxlength="240" placeholder="¿Cómo te pareció el torneo o la tienda?"></textarea>
+        <button class="btn btn-primary" onclick="postReview()">Publicar reseña</button>
+      </div>
+
+      <div class="rev-wall" id="revWall">
+        <div class="empty">Cargando reseñas…</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="wrap f-in">
+    <div class="note">
+      <strong style="color:var(--chalk)">Juega a lo grande, reta a los mejores</strong> — Torneo y tienda de Cali, Colombia.<br>
+      <span class="safe">Cuenta administrada por los papás de Thiago.</span> Los pagos por Nequi y el contacto de WhatsApp son de un adulto responsable.
+    </div>
+    <div class="mono" style="font-size:12px">⚽ Hecho con energía caleña</div>
+  </div>
+</footer>
+
+<!-- ===================== MODAL REGLAMENTO ===================== -->
+<div class="reg-modal-bg" id="regModalBg">
+  <div class="reg-modal">
+    <button class="close" onclick="document.getElementById('regModalBg').classList.remove('open')">×</button>
+    <span class="eyebrow" style="margin-bottom:8px">Primer Evento</span>
+    <h3>📋 Reglamento del Torneo</h3>
+    <p>El torneo se disputará en formato de eliminación directa. Cada equipo deberá inscribirse con un mínimo de 5 jugadores y un máximo de 8, incluyendo un portero titular. Los partidos se jugarán en canchas de fútbol 5, con tiempos de 10 minutos por período y un descanso de 3 minutos. En caso de empate al final del tiempo reglamentario, se definirá el ganador mediante tanda de penaltis (3 por equipo). Es obligatorio presentar documento de identidad al momento de la inscripción, y el incumplimiento de las normas de juego limpio podrá resultar en la descalificación inmediata del equipo infractor.</p>
+    <p>La inscripción tiene un costo único por equipo y deberá realizarse con mínimo 48 horas de anticipación al evento. El organizador se reserva el derecho de modificar el formato del torneo según el número de equipos inscritos, garantizando siempre la participación de todos los equipos registrados. Queda estrictamente prohibido el uso de lenguaje ofensivo, actos de violencia o conducta antideportiva; cualquier infracción grave será sancionada con la expulsión del torneo sin derecho a reembolso. Al participar, cada equipo acepta las presentes normas en su totalidad.</p>
+  </div>
+</div>
+
+<!-- ===================== MODAL COMPRA ===================== -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <button class="close" onclick="closeModal()">×</button>
+    <span class="eyebrow" style="margin-bottom:4px">Pedido</span>
+    <h3 id="mTitle">Producto</h3>
+    <p style="color:var(--ash);font-size:14px" id="mDesc"></p>
+
+    <label for="mQty">Cantidad</label>
+    <input id="mQty" type="number" min="1" max="10" value="1" oninput="updateTotal()">
+    <label for="mSize">Talla / detalle (opcional)</label>
+    <input id="mSize" placeholder="Ej: talla 38, color negro">
+
+    <div class="nequi-box">
+      <div class="lbl">Paga por Nequi a</div>
+      <div class="num" id="mNequi">300 000 0000</div>
+      <div class="nm" id="mNequiName">A nombre de (papá/mamá de Thiago)</div>
+    </div>
+
+    <div style="font-family:'Space Mono';font-weight:700;font-size:18px;margin-bottom:14px">
+      Total: <span style="color:var(--oro)" id="mTotal">$0</span>
+    </div>
+
+    <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="orderWhatsApp()">Confirmar pedido por WhatsApp</button>
+    <p class="hint">Haz la transferencia por Nequi y envía el comprobante por WhatsApp para coordinar la entrega. ✅</p>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   >>>>>>>>>>>>>>>>>>>>>>  CONFIG  <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+   Cambia SOLO esto. Es lo único que necesitas tocar.
+   ============================================================ */
+const CONFIG = {
+  marca: "JUEGA A LO GRANDE",
+
+  // --- Contacto / pagos (USA LOS DATOS DE UN ADULTO) ---
+  whatsapp: "573001234567",          // número con 57 al inicio, sin + ni espacios
+  nequiNumero: "300 000 0000",       // número de Nequi (de papá o mamá)
+  nequiNombre: "A nombre de (papá/mamá de Thiago)",
+
+  // --- Textos del torneo ---
+  heroLead: "Inscribe tu equipo en el torneo de barrio más prendido de Cali. Recreativo, familiar y al estilo de los picaditos de toda la vida — pero en grande.",
+  torneoIntro: "Equipos de 5, partidos cortos y mucha energía. Para el colegio, la unidad, el círculo del fútbol y cualquier parche de Cali que se le mida estas vacaciones.",
+  fecha: "Durante las vacaciones. Fines de semana.",
+  lugar: "Cancha sintética en Cali. Cupo limitado de equipos.",
+  costo: "Costo bajo por equipo. Plan familiar y recreativo.",
+  premio1: "Certificado de Campeón oficial + Inscripción gratuita al próximo evento + Reseña en redes sociales.",
+  premio2: "Ronda de Gatorade para todos los participantes del equipo.",
+  premio3: "Gatorade para cada jugador del torneo.",
+
+  // --- Galería: fotos reales de campeones ---
+  galeria: [
+    "assets/campeon1.jpg",
+    "assets/campeon2.jpg",
+    "",
+    ""
+  ],
+
+  // --- Productos: zapatillas reales de Thiago ---
+  productos: [
+    {
+      nombre: "Adizero",
+      precio: 70000,
+      tipo: "usado",
+      img: "assets/Adizero, talla 39, hombre, precio 70000 .png",
+      desc: "De Thiago. Talla 39, para hombre. En buen estado."
+    },
+    {
+      nombre: "Jordan Retro 1",
+      precio: 200000,
+      tipo: "usado",
+      img: "assets/Jordan retro 1, talla 37, hombre, precio 200000.png",
+      desc: "De Thiago. Talla 37, para hombre. Edición retro clásica."
+    },
+    {
+      nombre: "Nike Uptempo",
+      precio: 200000,
+      tipo: "usado",
+      img: "assets/Nike Uptempo, talla 39, hombre, precio 200000 .png",
+      desc: "De Thiago. Talla 39, para hombre. Icónico modelo Nike."
+    }
+  ]
+};
+/* ============================================================
+   >>>>>>>>>>>>  FIN DEL CONFIG (no toques lo de abajo) <<<<<<<
+   ============================================================ */
+
+const money = n => "$" + Number(n).toLocaleString("es-CO");
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $ = id => document.getElementById(id);
+
+/* ---------- Pintar textos del CONFIG ---------- */
+function applyConfig(){
+  $("brandName").textContent = CONFIG.marca;
+  $("heroLead").textContent = CONFIG.heroLead;
+  $("torneoIntro").textContent = CONFIG.torneoIntro;
+  $("cFechaTxt").textContent = CONFIG.fecha;
+  $("cLugarTxt").textContent = CONFIG.lugar;
+  $("cCostoTxt").textContent = CONFIG.costo;
+  $("prize1").textContent = CONFIG.premio1;
+  $("prize2").textContent = CONFIG.premio2;
+  $("prize3").textContent = CONFIG.premio3;
+  $("mNequi").textContent = CONFIG.nequiNumero;
+  $("mNequiName").textContent = CONFIG.nequiNombre;
+
+  // galería
+  $("gallery").innerHTML = CONFIG.galeria.map(src =>
+    src
+      ? `<div class="ph has-img"><img src="${esc(src)}" alt="Foto del torneo"></div>`
+      : `<div class="ph"><span class="big">📸</span>Agrega tu foto</div>`
+  ).join("");
+
+  // tienda
+  $("shop").innerHTML = CONFIG.productos.map((p,i) => `
+    <div class="prod">
+      <div class="pimg">
+        ${p.img ? `<img src="${esc(p.img)}" alt="${esc(p.nombre)}">`
+                : `<div class="ph"><span class="big">👟</span>Agrega tu foto</div>`}
+        <span class="ptag ${p.tipo==='usado'?'used':'new'}">${p.tipo==='usado'?'Usado · de Thiago':'Nuevo · a pedido'}</span>
+      </div>
+      <div class="pbody">
+        <h3>${esc(p.nombre)}</h3>
+        <p class="pdesc">${esc(p.desc)}</p>
+        <div class="price">${money(p.precio)}</div>
+        <button class="btn btn-primary" onclick="openModal(${i})">Pedir por Nequi</button>
+      </div>
+    </div>`).join("");
+}
+
+/* ---------- TOAST ---------- */
+let toastT;
+function toast(msg){
+  const t = $("toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toastT); toastT = setTimeout(()=>t.classList.remove("show"), 3200);
+}
+
+/* ============================================================
+   INSCRIPCIÓN DE EQUIPOS  (almacenamiento compartido)
+   ============================================================ */
+async function loadTeams(){
+  const list = $("teamList");
+  try{
+    const res = await window.storage.list("team:", true);
+    const keys = (res && res.keys) ? res.keys : [];
+    if(!keys.length){
+      list.innerHTML = `<div class="empty">Aún no hay equipos. ¡Sé el primero en inscribirte! ⚽</div>`;
+      $("teamCount").textContent = "0";
+      return;
+    }
+    const teams = [];
+    for(const k of keys){
+      try{ const r = await window.storage.get(k, true); if(r&&r.value) teams.push(JSON.parse(r.value)); }catch(e){}
+    }
+    teams.sort((a,b)=> b.t - a.t);
+    $("teamCount").textContent = teams.length;
+    list.innerHTML = teams.map(t => `
+      <div class="team">
+        <div class="av">${esc((t.name||"?").slice(0,2).toUpperCase())}</div>
+        <div class="meta">
+          <div class="tname">${esc(t.name)}</div>
+          <div class="tsub">Cap. ${esc(t.captain||"—")} · ${esc(t.players||5)} jugadores</div>
+        </div>
+        <span class="badge">${esc(t.cat||"")}</span>
+      </div>`).join("");
+  }catch(e){
+    list.innerHTML = `<div class="empty">No se pudo cargar el tablero. Revisa tu conexión e inténtalo de nuevo.</div>`;
+  }
+}
+
+async function registerTeam(){
+  const name = $("tName").value.trim();
+  const cat = $("tCat").value;
+  const players = $("tPlayers").value;
+  const captain = $("tCaptain").value.trim();
+  const phone = $("tPhone").value.trim();
+
+  if(name.length < 2){ toast("Ponle nombre a tu equipo ⚽"); $("tName").focus(); return; }
+  if(captain.length < 2){ toast("Falta el nombre del capitán"); $("tCaptain").focus(); return; }
+  if(phone.replace(/\D/g,"").length < 7){ toast("Pon un WhatsApp válido"); $("tPhone").focus(); return; }
+
+  // Guardado público: SOLO datos no sensibles (sin teléfono)
+  const team = { name, cat, players, captain, t: Date.now() };
+  const key = "team:" + team.t + ":" + Math.random().toString(36).slice(2,7);
+  try{
+    await window.storage.set(key, JSON.stringify(team), true);
+  }catch(e){
+    toast("No se pudo guardar. Inténtalo de nuevo.");
+    return;
+  }
+
+  // El teléfono va SOLO por WhatsApp a la organización (no se guarda público)
+  const msg = `¡Hola! Quiero inscribir mi equipo a la Copa Thiago.%0A%0AEquipo: ${encodeURIComponent(name)}%0ACategoría: ${encodeURIComponent(cat)}%0AJugadores: ${encodeURIComponent(players)}%0ACapitán: ${encodeURIComponent(captain)}%0AMi WhatsApp: ${encodeURIComponent(phone)}`;
+  window.open(`https://wa.me/${CONFIG.whatsapp}?text=${msg}`, "_blank");
+
+  $("tName").value = ""; $("tCaptain").value = ""; $("tPhone").value = "";
+  toast("¡Equipo inscrito! Confirma por WhatsApp ✅");
+  loadTeams();
+}
+
+/* ============================================================
+   RESEÑAS  (almacenamiento compartido)
+   ============================================================ */
+let starVal = 5;
+function initStars(){
+  const pick = $("starPick");
+  const paint = v => [...pick.children].forEach(s => s.classList.toggle("on", +s.dataset.v <= v));
+  [...pick.children].forEach(s=>{
+    s.addEventListener("click", ()=>{ starVal = +s.dataset.v; paint(starVal); });
+    s.addEventListener("mouseenter", ()=> paint(+s.dataset.v));
+  });
+  pick.addEventListener("mouseleave", ()=> paint(starVal));
+  paint(starVal);
+}
+
+async function loadReviews(){
+  const wall = $("revWall");
+  try{
+    const res = await window.storage.list("review:", true);
+    const keys = (res && res.keys) ? res.keys : [];
+    if(!keys.length){
+      wall.innerHTML = `<div class="empty">Todavía no hay reseñas. ¡Deja la primera! ⭐</div>`;
+      return;
+    }
+    const revs = [];
+    for(const k of keys){
+      try{ const r = await window.storage.get(k, true); if(r&&r.value) revs.push(JSON.parse(r.value)); }catch(e){}
+    }
+    revs.sort((a,b)=> b.t - a.t);
+    wall.innerHTML = revs.map(r => `
+      <div class="rev">
+        <div class="top">
+          <span class="who">${esc(r.name)}</span>
+          <span class="when">${new Date(r.t).toLocaleDateString("es-CO",{day:"numeric",month:"short"})}</span>
+        </div>
+        <div class="rstars">${"★".repeat(r.rating)}${"☆".repeat(5-r.rating)}</div>
+        <div class="rtext">${esc(r.text)}</div>
+      </div>`).join("");
+  }catch(e){
+    wall.innerHTML = `<div class="empty">No se pudieron cargar las reseñas. Inténtalo de nuevo.</div>`;
+  }
+}
+
+async function postReview(){
+  const name = $("rName").value.trim();
+  const text = $("rText").value.trim();
+  if(name.length < 2){ toast("¿Cómo te llamas?"); $("rName").focus(); return; }
+  if(text.length < 3){ toast("Escribe tu comentario"); $("rText").focus(); return; }
+
+  const rev = { name, text, rating: starVal, t: Date.now() };
+  const key = "review:" + rev.t + ":" + Math.random().toString(36).slice(2,7);
+  try{
+    await window.storage.set(key, JSON.stringify(rev), true);
+  }catch(e){
+    toast("No se pudo publicar. Inténtalo de nuevo.");
+    return;
+  }
+  $("rName").value = ""; $("rText").value = ""; starVal = 5; initStars();
+  toast("¡Gracias por tu reseña! ⭐");
+  loadReviews();
+}
+
+/* ============================================================
+   TIENDA — MODAL DE PEDIDO
+   ============================================================ */
+let current = null;
+function openModal(i){
+  current = CONFIG.productos[i];
+  $("mTitle").textContent = current.nombre;
+  $("mDesc").textContent = current.desc;
+  $("mQty").value = 1; $("mSize").value = "";
+  updateTotal();
+  $("modalBg").classList.add("open");
+}
+function closeModal(){ $("modalBg").classList.remove("open"); }
+function updateTotal(){
+  if(!current) return;
+  const q = Math.max(1, parseInt($("mQty").value)||1);
+  $("mTotal").textContent = money(current.precio * q);
+}
+function orderWhatsApp(){
+  if(!current) return;
+  const q = Math.max(1, parseInt($("mQty").value)||1);
+  const size = $("mSize").value.trim();
+  const total = current.precio * q;
+  let msg = `¡Hola! Quiero pedir de la tienda Copa Thiago:%0A%0AProducto: ${encodeURIComponent(current.nombre)}%0ACantidad: ${q}`;
+  if(size) msg += `%0ADetalle: ${encodeURIComponent(size)}`;
+  msg += `%0ATotal: ${encodeURIComponent(money(total))}%0A%0APago por Nequi al ${encodeURIComponent(CONFIG.nequiNumero)}. Envío el comprobante. ✅`;
+  window.open(`https://wa.me/${CONFIG.whatsapp}?text=${msg}`, "_blank");
+  closeModal();
+  toast("Te llevamos a WhatsApp para confirmar 📲");
+}
+$("modalBg").addEventListener("click", e=>{ if(e.target.id==="modalBg") closeModal(); });
+
+/* ---------- ARRANQUE ---------- */
+applyConfig();
+initStars();
+loadTeams();
+loadReviews();
+
+/* ---------- REGLAMENTO MODAL: cerrar en backdrop ---------- */
+document.getElementById('regModalBg').addEventListener('click', function(e){
+  if(e.target.id === 'regModalBg') this.classList.remove('open');
+});
+
+/* ---------- VIDEO DE FONDO ---------- */
+const heroBg = document.getElementById('heroBg');
+if(heroBg){
+  heroBg.playbackRate = 1;
+  heroBg.addEventListener('ended', () => heroBg.play());
+  document.addEventListener('click', () => { if(heroBg.paused) heroBg.play(); }, {once:true});
+}
+</script>
