@@ -217,6 +217,19 @@
 
   @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 
+  /* ---------- HERO FONDO FOTO ---------- */
+  .hero{
+    background-image: url('assets/campeon1.jpg');
+    background-size: cover;
+    background-position: center top;
+  }
+  .hero::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(to bottom, rgba(10,19,22,.65) 0%, rgba(10,19,22,.5) 50%, rgba(10,19,22,.85) 100%);
+    pointer-events:none;
+  }
+  .hero .floodlight,.hero .wrap{position:relative;z-index:1}
+
   /* ---------- VIDEO GALERÍA ---------- */
   .gallery-video{border-radius:14px;overflow:hidden;margin-bottom:16px;border:1px solid var(--line)}
   .gallery-video video{width:100%;display:block;max-height:400px;object-fit:cover}
@@ -299,10 +312,9 @@
     </div>
 
     <h3 style="margin:38px 0 16px;font-size:22px">Premios</h3>
-    <div class="grid-3">
-      <div class="card prize first"><div class="ico">🏆</div><div class="rank">Campeón</div><p id="prize1">Certificado de Campeón oficial + Inscripción gratuita al próximo evento + Reseña en redes sociales.</p></div>
+    <div class="grid-2">
+      <div class="card prize first"><div class="ico">🏆</div><div class="rank">Campeón</div><p id="prize1">Certificado de Campeón oficial + Inscripción gratuita al próximo evento + Reseña en redes sociales + Gatorade para todos los participantes.</p></div>
       <div class="card prize"><div class="ico">🥈</div><div class="rank">Subcampeón</div><p id="prize2">Ronda de Gatorade para todos los participantes del equipo.</p></div>
-      <div class="card prize"><div class="ico">🏅</div><div class="rank">Todos los participantes</div><p id="prize3">Gatorade para cada jugador del torneo.</p></div>
     </div>
 
     <h3 style="margin:38px 0 16px;font-size:22px">Galería</h3>
@@ -482,16 +494,15 @@ const CONFIG = {
   fecha: "Durante las vacaciones. Fines de semana.",
   lugar: "Cancha sintética en Cali. Cupo limitado de equipos.",
   costo: "Costo bajo por equipo. Plan familiar y recreativo.",
-  premio1: "Certificado de Campeón oficial + Inscripción gratuita al próximo evento + Reseña en redes sociales.",
+  premio1: "Certificado de Campeón oficial + Inscripción gratuita al próximo evento + Reseña en redes sociales + Gatorade para todos los participantes.",
   premio2: "Ronda de Gatorade para todos los participantes del equipo.",
-  premio3: "Gatorade para cada jugador del torneo.",
 
   // --- Galería: fotos reales de campeones ---
   galeria: [
     "assets/campeon1.jpg",
     "assets/campeon2.jpg",
-    "",
-    ""
+    "assets/campeon3.jpg",
+    "assets/campeon4.jpg"
   ],
 
   // --- Productos: zapatillas reales de Thiago ---
